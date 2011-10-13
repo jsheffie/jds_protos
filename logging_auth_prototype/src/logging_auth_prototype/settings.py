@@ -20,47 +20,15 @@ DATABASES = {
     }
 }
 
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
 TIME_ZONE = 'America/Chicago'
-
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
-
 SITE_ID = 1
-
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
 USE_I18N = True
-
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
 USE_L10N = True
-
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = ''
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
-
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media/'
-
-# Make this unique, and don't share it with anybody.
 SECRET_KEY = 'cklk!dy&$tp3up16cu%t6b@uxpezu2-e^ns$8v*#h5rg&oa6*u'
-
-# List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -90,7 +58,35 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'dblogging',
 )
+
+# To clear out login sessions....
+# Session.objects.all().delete()
+AUTHENTICATION_BACKENDS = ('dblogging.auth.ActiveDirectoryBackend',
+                           'django.contrib.auth.backends.ModelBackend',)
+
+# From Steve S.
+# name and password: anonldap / atsadmin
+# account is in the domain ultra-ats might need to be specified as ultra-ats\anonldap
+# search root: cn=users, dc=ultra-ats, dc=com
+# authentication type: simple
+
+# Some links on the subject
+# http://packages.python.org/django-auth-ldap/
+# going to want to do this.
+# https://docs.djangoproject.com/en/dev/topics/auth/#storing-additional-information-about-users
+# trying this now.
+# http://djangosnippets.org/snippets/501/
+#AD_DNS_NAME = 'armstrong.ultra-ats.com'
+AD_DNS_NAME = 'strongarm.ultra-ats.com'
+AD_LDAP_PORT = 389
+#AD_SEARCH_DN = 'CN=Users,dc=ultra-ats,dc=com'
+AD_SEARCH_DN = 'dc=ultra-ats,dc=com'
+AD_NT4_DOMAIN = 'EXAMPLE'
+#AD_NT4_DOMAIN = 'ULTRA-ATS'
+AD_SEARCH_FIELDS = ['mail','givenName','sn','sAMAccountName']
+AD_LDAP_URL = 'ldap://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)
