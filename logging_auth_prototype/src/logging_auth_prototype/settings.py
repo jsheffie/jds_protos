@@ -70,7 +70,7 @@ AUTHENTICATION_BACKENDS = ('dblogging.auth.ActiveDirectoryBackend',
                            'django.contrib.auth.backends.ModelBackend',)
 
 # From Steve S.
-# name and password: anonldap / atsadmin
+# name and password: anonldap 
 # account is in the domain ultra-ats might need to be specified as ultra-ats\anonldap
 # search root: cn=users, dc=ultra-ats, dc=com
 # authentication type: simple
@@ -81,12 +81,10 @@ AUTHENTICATION_BACKENDS = ('dblogging.auth.ActiveDirectoryBackend',
 # https://docs.djangoproject.com/en/dev/topics/auth/#storing-additional-information-about-users
 # trying this now.
 # http://djangosnippets.org/snippets/501/
-#AD_DNS_NAME = 'armstrong.ultra-ats.com'
-AD_DNS_NAME = 'strongarm.ultra-ats.com'
+AD_DNS_NAME = 'servername.ultra-ats.com'
 AD_LDAP_PORT = 389
 #AD_SEARCH_DN = 'CN=Users,dc=ultra-ats,dc=com'
 AD_SEARCH_DN = 'dc=ultra-ats,dc=com'
 AD_NT4_DOMAIN = 'EXAMPLE'
-#AD_NT4_DOMAIN = 'ULTRA-ATS'
 AD_SEARCH_FIELDS = ['mail','givenName','sn','sAMAccountName']
 AD_LDAP_URL = 'ldap://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)
